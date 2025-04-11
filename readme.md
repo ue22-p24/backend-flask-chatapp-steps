@@ -1,1 +1,1 @@
-# GET /api/messages/with/<user_id> returns users details
+# GET /front/messages/<user_id> a html page to see messages
