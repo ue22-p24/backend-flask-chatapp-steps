@@ -1,1 +1,1 @@
-# create a table in the DB
+# POST /api/users endpoint to create a user
