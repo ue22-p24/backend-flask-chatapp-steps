@@ -1,1 +1,1 @@
-# GET /api/messages/ to retrieve all messages
+# GET /api/messages/with/<user_id> - first draft
