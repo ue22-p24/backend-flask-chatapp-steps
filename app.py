@@ -1,4 +1,4 @@
-VERSION = "07"
+VERSION = "07b"
 
 import json
 from datetime import datetime as DateTime
@@ -127,6 +127,31 @@ def list_user(id):
         user = User.query.get(id)
         return dict(
             id=user.id, name=user.name, email=user.email, nickname=user.nickname)
+    except Exception as exc:
+        return dict(error=f"{type(exc)}: {exc}"), 422
+
+
+# try it with
+"""
+http :5001/api/messages author_id=1 recipient_id=2 content="trois petits chats"
+http :5001/api/messages author_id=2 recipient_id=1 content="chapeau de paille"
+http :5001/api/messages author_id=1 recipient_id=2 content="paillasson"
+http :5001/api/messages author_id=2 recipient_id=1 content="somnambule"
+http :5001/api/messages author_id=2 recipient_id=3 content="not visible by 1"
+"""
+@app.route('/api/messages', methods=['POST'])
+def create_message():
+    try:
+        parameters = json.loads(request.data)
+        content = parameters['content']
+        author_id = parameters['author_id']
+        recipient_id = parameters['recipient_id']
+        date = DateTime.now()
+        new_message = Message(content=content, date=date,
+                              author_id=author_id, recipient_id=recipient_id)
+        db.session.add(new_message)
+        db.session.commit()
+        return parameters
     except Exception as exc:
         return dict(error=f"{type(exc)}: {exc}"), 422
 

@@ -1,1 +1,1 @@
-# create a table for messages
+# POST /api/messages to create a message
