@@ -1,4 +1,4 @@
-VERSION = "07b"
+VERSION = "08"
 
 import json
 from datetime import datetime as DateTime
@@ -154,6 +154,19 @@ def create_message():
         return parameters
     except Exception as exc:
         return dict(error=f"{type(exc)}: {exc}"), 422
+
+
+# try it with
+"""
+http :5001/api/messages
+"""
+@app.route('/api/messages', methods=['GET'])
+def list_messages():
+    messages = Message.query.all()
+    return [dict(
+            id=message.id, content=message.content, date=message.date,
+            author_id=message.author_id, recipient_id=message.recipient_id)
+        for message in messages]
 
 
 
