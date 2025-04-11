@@ -1,29 +1,7 @@
-## get messages for a user
+## getting messages with a user
 
-more useful now, we need an API endpoint to retrieve messages for a given user  
-like always we will refer to the user **by its primary key**, so that is the
-expected parameter in the URL
+first improvement to the previous step, we will now return messages **with** the user and not only **for** the user  
+meaning that we need to write a little more elaborate filter, and look for messages that have the user as **either** the author or the recipient
 
-in other words, /api/messages/with/1 will return all messages for the user with id 1
-
-### a first implementation
-
-in this first naive approach:
-
-- we return messages **with only user ids** (i.e. without their nickname)  
-- also we will only return messages where the user is the **recipient**  
-
-this is not very useful, but again it will help us understand how to properly deal with relationships
-
-### nothing out of the ordinary
-
-we can use the exact same approach as for the users:
-
-- we run a query on the `messages` table
-- and we simply filter it by the `recipient_id` column
-
-### something missing
-
-in a practical app, we would probably need to return **BOTH** messsages that have the user as recipient **and as author**
-
-but let's not get ahead of ourselves, we will improve all this later on
+which in logical terms amounts to doing a `OR` between the two conditions  
+hence the import of the `or_` function from SQLAlchemy, that will allow us to combine the two conditions

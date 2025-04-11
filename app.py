@@ -1,4 +1,4 @@
-VERSION = "09"
+VERSION = "10"
 
 import json
 from datetime import datetime as DateTime
@@ -11,6 +11,7 @@ from flask import redirect
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
+from sqlalchemy.sql import or_
 
 ## usual Flask initilization
 app = Flask(__name__)
@@ -173,15 +174,21 @@ def list_messages():
 """
 http :5001/api/messages/with/1
 """
+
 @app.route('/api/messages/with/<int:recipient_id>', methods=['GET'])
 def list_messages_to(recipient_id):
-    """"
-    returns only the messages to a given person
-    a first naive approach is to filter all messages by recipient_id
-    """"
-    messages = Message.query.filter_by(recipient_id=recipient_id).all()
+    """
+    returns only messages to and from a given person
+    need to write a little more elaborate query
+    we still can only return author_id and recipient_id
+    """
+    messages = Message.query.filter(
+        or_(
+            Message.author_id==recipient_id,
+            Message.recipient_id==recipient_id,
+        )
+    ).all()
     return [
-        # rebuild dict (JSON-able) objects from the SQLAlchemy objects
         dict(
             id=message.id,
             author_id=message.author_id,

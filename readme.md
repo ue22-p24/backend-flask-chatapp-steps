@@ -1,1 +1,1 @@
-# GET /api/messages/with/<user_id> - first draft
+# GET /api/messages/with/<user_id> returns both from and to user
