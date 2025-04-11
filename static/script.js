@@ -5,10 +5,18 @@ const formToJSON = form => Object.fromEntries(new FormData(form))
 document.addEventListener('DOMContentLoaded', async (event) => {
     console.log("connecting to the SocketIO backend")
     const socket = io()
+    // we are storing the nickname in the body element
+    const nickname = document.body.dataset.nickname
     socket.on('connect', () => {
         console.log('Connected!')
-        socket.emit('connect-ack', {messages: 'I\'m connected!'})
+        socket.emit('connect-ack', {messages: `${nickname} has connected!`})
     })
+    // so we can subscribe to that channel
+    socket.on(nickname, (data) => {
+        // the backend does not yet send anything to this channel, but anticipating a bit...
+        alert(`received ${data} from socketio on the ${nickname} channel`)
+    })
+    console.log(`subscribed to the ${nickname} channel`)
     document.getElementById('send-form').addEventListener('submit',
         async (event) => {
             // turn off default form behaviour
