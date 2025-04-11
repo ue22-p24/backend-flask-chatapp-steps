@@ -1,17 +1,23 @@
-## a /api/version endpoint
+## define a table in the DB
 
-### endpoints
+### the `User` table
 
-- We create a new endpoint `/api/version` that will return the version of
-  the code (we will increment the global `VERSION` variable as we go along the
-  steps)
+thanks to SQLAlchemy, and specifically its ORM (Object Relational Mapper), we
+can define a table in the database **as a Python class**.
 
-*Note* while we're talking versions, note that in a production environment, the
-API endpoints would rather be versioned like `/api/v1/...`  
-so that one can define a breaking change in the API, and still support the previous one
+- the class must inherit `db.Model`, which is the base class for all models in
+  that database
+- also, it contains a primary key - this is standard practice in SQL databases
+- it also contains as many columns as we need to model a user, in our case
+  `name`, `email` and `nickname`
+- note how each column is defined with `db.Column()`, and thus typed (here we
+  mostly have strings, but the primary key is an integer)
 
-### to try it out
+### database actual creation
 
-```bash
-http ://localhost:5001/api/version
-```
+note **the call to `db.create_all()`** as the first instruction executed in the
+server life cycle.
+
+**this is crucial** if we want to actually create the table (in DB words, this
+  means we apply the schema to the database)
+

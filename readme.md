@@ -1,1 +1,1 @@
-# GET /api/version
+# create a table in the DB
