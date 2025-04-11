@@ -1,1 +1,1 @@
-# GET /front/users : a web page to see the users
+# redirect the / route to /front/users
