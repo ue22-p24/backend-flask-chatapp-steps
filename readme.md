@@ -1,1 +1,1 @@
-# /api/messages creation endpoint returns more details
+# enable SocketIO & the messages page connects to the backend
