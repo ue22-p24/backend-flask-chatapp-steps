@@ -1,35 +1,45 @@
-## an endpoint to GET all users
+## serve a basic frontend
 
-this is rather straightforward; now that we have a means to create users, we
-need a way to get them back
+In this move we add in the mix the first seed of the app frontend
 
-- we use the same `/api/users` endpoint
-- except that this time we use the `GET` method
+### new files
 
-### how to retrive stuff with SQLAlchemy
+a HTML template, and a CSS file, see below
 
-on a SQLAlchemy class - here `User` - and specifically on its `query` attribute, we can use methods like
+### new endpoint
 
-- `all()` to get all the rows
-- `first()` to get the first row
-- `get()` to get a row by its primary key
-- `filter_by()` to filter the rows
-- and other similar words...
+And we also add a dedicated endpoint `/front/users` that will serve this page; the way it is intended to work is:
 
-in this case a call to `all()` will return an **iterable of `User` objects**
+1. you direct your browser to `http://localhost:5001/front/users`
+1. which will call the `/api/users` endpoint
+1. which in turn will retrieve all users from the DB
+1. and pass that list to the new **Jinja2 template** (the .j2 file)
+1. that will create one custom HTML element per user
+1. and return the full HTML page - with all users - back to the browser
 
-now, we cannot unfortunately return a list of these objets as-is in the Flask route function
+### new imports
 
-why is that ? because these `User` objects are not JSON serializable !  
-and Flask would automatically try to convert them to JSON, and fail miserably...
+We need:
 
-this is the reason why we need to re-create a regular Python dictionary (with obviously the same keys as the
-`User` class)
+- `render_template` to render the Jinja2 template;
+- `requests` to call the `/api/users` endpoint
 
-**Note** There are ways to deal with this a bit more concisely, but for
-educational purposes, and  for the sake of clarity, we will stick to this
-admittedly rather tedious way of doing things
+### keeping the app modular
 
-### to try it out
+Step #3 deserves a few more words; to retrieve all user details, we have a choice between:
 
-you know what to do
+- asking the database directly
+- or forwarding the request to the `/api/users` endpoint
+
+We have gone for the latter option, as it is more in line with the micro-services philosophy  
+The idea is that even though our current deployment runs in a single Flask app,
+we want to be able to **deploy it in more distributed way**, with the services for
+- the database
+- the `/front/`
+- and the `/api/` endpoints
+
+all running in different containers/computers
+
+Also note that this way of doing things is SSR (Server-Side rendering); relying
+on the API to implement this endpointmakes it more likely for us move to CSR
+(Client-Side rendering) in the future if need be.

@@ -1,1 +1,1 @@
-# GET /api/users endpoint to list users
+# GET /front/users : a web page to see the users
