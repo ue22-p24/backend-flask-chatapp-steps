@@ -1,12 +1,18 @@
-## also display newly created message
+## display nicknames in newly created messages
 
-upon successful creation of a message, the API returns the message details so,
-we can use that to display the message in the frontend
+to be able to display the nicknames of the users in the newly created messages,
+we need to slightly tweak our `/api/messages` endpoint  
+instead of returning a `author_id` and a `recipient_id`, we will return the
+`author` and `recipient` objects with full details
 
-in the mix, we can also take care of any error that may occur, and inform the
-user (actually in this rustic app we just log in the console)
+for that the endpoint does 2 requests to the DB
 
-### the caveats
+**Note** in real life, one tends to optimize the number of requests to the DB;  
+it would be possible to get the `author` and `recipient` objects in one go, but
+here we are not in a performance context, and we want to keep things simple
 
-at this point in time, the data returned by the API about the newly created
-message only contains user ids, not the user names
+### caveats
+
+now the app works reasonably fine as far as sending messages is concerned  
+but it still sucks in terms of receiving messages; we have no simple way to be
+made aware of incoming messages
