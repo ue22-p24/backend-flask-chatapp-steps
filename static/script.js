@@ -6,16 +6,20 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     console.log("connecting to the SocketIO backend")
     const socket = io()
     // we are storing the nickname in the body element
+    const display_new_message = (data) => {
+        // this is assume to be a an object (so JSON.parse before if necessary)
+        const {author, recipient, content, date} = data
+        const newRow = document.createElement('tr')
+        newRow.innerHTML = `<td>${date}</td><td>${author.nickname}</td><td>${recipient.nickname}</td><td>${content}</td>`
+        document.getElementById('messages').appendChild(newRow)
+    }
     const nickname = document.body.dataset.nickname
     socket.on('connect', () => {
         console.log('Connected!')
         socket.emit('connect-ack', {messages: `${nickname} has connected!`})
     })
     // so we can subscribe to that channel
-    socket.on(nickname, (data) => {
-        // the backend does not yet send anything to this channel, but anticipating a bit...
-        alert(`received ${data} from socketio on the ${nickname} channel`)
-    })
+    socket.on(nickname, (str) => display_new_message(JSON.parse(str)))
     console.log(`subscribed to the ${nickname} channel`)
     document.getElementById('send-form').addEventListener('submit',
         async (event) => {
@@ -29,14 +33,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 body: JSON.stringify(json)
             })
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                // now we can diplay the author and recipient nicknames
-                const {author, recipient, content, date} = data
-                const newRow = document.createElement('tr')
-                newRow.innerHTML = `<td>${date}</td><td>${author.nickname}</td><td>${recipient.nickname}</td><td>${content}</td>`
-                document.getElementById('messages').appendChild(newRow)
-            })
+            .then(display_new_message)
             .catch((error) => {
                 console.error('Error:', error)
             })
