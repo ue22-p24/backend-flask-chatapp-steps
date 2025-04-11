@@ -1,20 +1,12 @@
-## the frontend can send messages too
+## also display newly created message
 
-it's nice to see the messages; but better still, we'd need to be able to send messages as well
+upon successful creation of a message, the API returns the message details so,
+we can use that to display the message in the frontend
 
-in order to achieve this, we need:
+in the mix, we can also take care of any error that may occur, and inform the
+user (actually in this rustic app we just log in the console)
 
-- more information made available in the frontend page: the list of users, so that the user can select a recipient
-- in the frontend as well, a new form area to send messages
-- a new frontend script - stored in `static/script.js` - that will actually send the message - by talking back to the API
+### the caveats
 
-### the /front/ endpoint
-
-- simply makes a 3rd request to the API, to get the list of users
-
-### still missing
-
-and fixed in the next step:
-
-the page does not refresh after sending a message; i.e. the new message is not
-displayed in the list of messages
+at this point in time, the data returned by the API about the newly created
+message only contains user ids, not the user names

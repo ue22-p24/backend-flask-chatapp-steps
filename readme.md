@@ -1,1 +1,1 @@
-# GET /front/messages/<user_id> has a dialog to send messages
+# GET /front/messages/<user_id> keeps track of the message it just sent
