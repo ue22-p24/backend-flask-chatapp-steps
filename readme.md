@@ -1,1 +1,1 @@
-# pass current nickname to the JS code
+# backend notifies of new messages on the socketio channel

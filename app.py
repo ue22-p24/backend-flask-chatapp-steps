@@ -1,4 +1,4 @@
-VERSION = "17"
+VERSION = "18"
 
 import json
 from datetime import datetime as DateTime
@@ -167,6 +167,12 @@ def create_message():
         parameters['recipient'] = dict(
             id=recipient.id, name=recipient.name, email=recipient.email, nickname=recipient.nickname)
         parameters['date'] = date
+        # we might have considered writing this
+        # socket.emit(recipient.nickname, json.dumps(parameters))
+        # however it won't work as-is because of the datetime filed which is not serializable
+        # it turns out flask knows how to serialize it, but for socketio we need to do it ourselves
+        # quick nd dirty way is this
+        socketio.emit(recipient.nickname, json.dumps(parameters, default=str))
         return parameters
     except Exception as exc:
         return dict(error=f"{type(exc)}: {exc}"), 422
