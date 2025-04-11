@@ -1,4 +1,4 @@
-VERSION = "12"
+VERSION = "13"
 
 import json
 from datetime import datetime as DateTime
@@ -151,6 +151,7 @@ def create_message():
         author_id = parameters['author_id']
         recipient_id = parameters['recipient_id']
         date = DateTime.now()
+        print("received request to create message", author_id, recipient_id, content)
         new_message = Message(content=content, date=date,
                               author_id=author_id, recipient_id=recipient_id)
         db.session.add(new_message)
@@ -249,9 +250,14 @@ def front_messages(recipient):
         return dict(error="could not request messages list", url=url,
                     status=req2.status_code, text=req2.text)
     messages = req2.json()
+    # not trying to optimize for now
+    url = request.url_root + '/api/users'
+    req3 = requests.get(url)
+    users = req3.json()
     return render_template(
         'messages.html.j2',
         user=user, messages=messages,
+        users=users,
     )
 
 

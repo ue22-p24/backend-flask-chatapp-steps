@@ -1,1 +1,1 @@
-# GET /front/messages/<user_id> a html page to see messages
+# GET /front/messages/<user_id> has a dialog to send messages
