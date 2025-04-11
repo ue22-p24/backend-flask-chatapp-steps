@@ -1,1 +1,1 @@
-# redirect the / route to /front/users
+# GET /api/users/<user_id> endpoint to retrieve a single user

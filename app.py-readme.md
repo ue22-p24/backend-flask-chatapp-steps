@@ -1,22 +1,8 @@
-## how to redirect
+## add a /api/users/*id* endpoint
 
-Nothing crucial here, but an opportunity to show how to redirect HTTP traffic
+A new endpoint to get the details of one specific user from their ID
 
-### what is a redirect ?
+Nothing new indeed, very similar to the `/api/users` endpoint, except that we
+use the `get()` method to retrieve the user by its primary key
 
-There are many reasons why you would want to redirect a request to another URL:
-
-- the URL has changed
-- the resource is now located on another server
-- ...
-
-### how to redirect
-
-In Flask you can use the `redirect()` function to redirect a request to another URL; it's dead simple;
-in our case we just redirect the `/' URL to the `/front/users` URL:
-
-### see also
-
-in particular about the HTTP codes, see:
-
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections
+(and we still need to convert the `User` object to a regular Python dictionary)

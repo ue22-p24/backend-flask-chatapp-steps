@@ -1,4 +1,4 @@
-VERSION = "05"
+VERSION = "06"
 
 import json
 import requests
@@ -74,6 +74,7 @@ def version():
 """
 http :5001/api/users name="Alice Caroll" email="alice@foo.com" nickname="alice"
 http :5001/api/users name="Bob Morane" email="bob@foo.com" nickname="bob"
+http :5001/api/users name="Charlie Chaplin" email="charlie@foo.com" nickname="charlie"
 """
 @app.route('/api/users', methods=['POST'])
 def create_user():
@@ -104,6 +105,21 @@ def list_users():
     return [dict(
             id=user.id, name=user.name, email=user.email, nickname=user.nickname)
         for user in users]
+
+
+# try it with
+"""
+http :5001/api/users/1
+"""
+@app.route('/api/users/<int:id>', methods=['GET'])
+def list_user(id):
+    try:
+        # as id is the primary key
+        user = User.query.get(id)
+        return dict(
+            id=user.id, name=user.name, email=user.email, nickname=user.nickname)
+    except Exception as exc:
+        return dict(error=f"{type(exc)}: {exc}"), 422
 
 
 
