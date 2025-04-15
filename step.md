@@ -1,1 +1,1 @@
-# GET /front/messages/<id> a front for messages
+# the messages web page can send messages

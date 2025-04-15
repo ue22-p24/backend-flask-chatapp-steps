@@ -1,20 +1,20 @@
-## a web page to display the messages for a given user
+## the html page has a dialog and can now also send messages
 
-just like we did earlier for users, it's time to build a frontend to display messages  
-this comes in two parts:
-- a new frontend endpoint `/front/messages/<id>` that will be the main page for one user
-- an html template that will display the messages relevant for a given user
+it's nice to see the messages; but better still, we'd need to be able to send messages as well
 
-### accessing the DB
+in order to achieve this, we need:
 
-like for the earlier step, we refrain from accessing the DB directly, and use
-the `/api/users/<id>/messages` endpoint  
-the arguments we had for users - the fact that we want the app to remain modular - still holds as well of course  
-plus, on top of that, the approach here makes even more sense, in that the logic for
-retrieval this time is a little more complex, and **should not be duplicated**
+- more information made available in the frontend page: the list of users, so that the user can select a recipient
+- in the frontend as well, a new form area to send messages
+- a new frontend script - stored in `static/script.js` - that will actually send the message - by talking back to the API
 
-### other caveats
+### the /front/ endpoint
 
-at this point, the main default is, we don't see incoming messages as they are
-posted; the user needs to refresh the page to see new messages; a bit of
-patience...
+- simply makes a 3rd request to the API, to get the list of users
+
+### still missing
+
+and fixed in the next step:
+
+the page does not refresh after sending a message; i.e. the new message is not
+displayed in the list of messages

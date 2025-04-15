@@ -1,10 +1,9 @@
-## the template
+## adding a form element in the template
 
-the template is created with 2 variables:
+this new version of the template:
 
-- `user`: the details about the user, that we get .. wait for it .. from the
-  `/api/users/<id>` endpoint
-- `messages`: the messages for the user, that we get from the
-  `/api/users/<id>/messages` endpoint
-
-in this first version we just display the messages, we'll add a prompt area later on
+- injects the new JS script
+- adds a new form area to send messages, that has as many `<input>` fields as there are fields in a message, namely
+  - a `hidden` input with the `author_id` (the user id) - that won't change, but is required as part of the newly created message
+  - a `<select>` tag for the recipient
+  - a `<input>` tag for the content, typed as `text`
