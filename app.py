@@ -1,4 +1,4 @@
-VERSION = "14"
+VERSION = "15"
 
 import json
 from datetime import datetime as DateTime
@@ -150,12 +150,21 @@ def create_message():
         content = parameters['content']
         author_id = parameters['author_id']
         recipient_id = parameters['recipient_id']
+        # check that author and recipient exist
+        author = User.query.get(author_id)
+        recipient = User.query.get(recipient_id)
         date = DateTime.now()
         print("received request to create message", author_id, recipient_id, content)
         new_message = Message(content=content, date=date,
                               author_id=author_id, recipient_id=recipient_id)
         db.session.add(new_message)
         db.session.commit()
+        # expose more details in the response
+        parameters['author'] = dict(
+            id=author.id, name=author.name, email=author.email, nickname=author.nickname)
+        parameters['recipient'] = dict(
+            id=recipient.id, name=recipient.name, email=recipient.email, nickname=recipient.nickname)
+        parameters['date'] = date
         return parameters
     except Exception as exc:
         return dict(error=f"{type(exc)}: {exc}"), 422

@@ -1,1 +1,1 @@
-# the messages page displays the new message
+# messages creation endpoint returns more details
