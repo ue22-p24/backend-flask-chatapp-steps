@@ -1,1 +1,1 @@
-# POST /api/messages to create a message
+# GET /api/messages/
