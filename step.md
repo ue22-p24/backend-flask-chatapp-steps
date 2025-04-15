@@ -1,1 +1,1 @@
-# the simplest possible hello world app
+# connect to a database
