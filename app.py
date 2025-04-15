@@ -1,4 +1,4 @@
-VERSION = "10"
+VERSION = "11"
 
 import json
 from datetime import datetime as DateTime
@@ -41,6 +41,9 @@ class Message(db.Model):
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     date = db.Column(db.DateTime)
 
+    # Define relationships (to fetch User objects directly)
+    author = db.relationship('User', foreign_keys=[author_id], backref='sent_messages')
+    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='received_messages')
 
 # actually create the database (i.e. tables etc)
 with app.app_context():
@@ -188,11 +191,17 @@ def list_messages_to(recipient_id):
             Message.recipient_id==recipient_id,
         )
     ).all()
+    # now we have in message.author and message.recipient
+    # the actual User objects
     return [
         dict(
             id=message.id,
-            author_id=message.author_id,
-            recipient_id=message.recipient_id,
+            author = dict(
+                id=message.author.id, name=message.author.name,
+                email=message.author.email, nickname=message.author.nickname),
+            recipient = dict(
+                id=message.recipient.id, name=message.recipient.name,
+                email=message.recipient.email, nickname=message.recipient.nickname),
             content=message.content,  date=message.date)
         for message in messages
     ]

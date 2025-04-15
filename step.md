@@ -1,1 +1,1 @@
-# GET /api/users/<id>/messages: to and from user
+# GET /api/users/<id>/messages: more than just ids
