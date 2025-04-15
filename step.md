@@ -1,1 +1,1 @@
-# GET /api/users/<id> to retrieve a single user
+# a SQL table for messages

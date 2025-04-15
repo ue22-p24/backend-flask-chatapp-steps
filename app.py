@@ -1,6 +1,7 @@
-VERSION = "06"
+VERSION = "07"
 
 import json
+from datetime import datetime as DateTime
 import requests
 
 from flask import Flask
@@ -30,6 +31,14 @@ class User(db.Model):
     name = db.Column(db.String)
     email = db.Column(db.String)
     nickname = db.Column(db.String)
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date = db.Column(db.DateTime)
 
 
 # actually create the database (i.e. tables etc)
