@@ -1,17 +1,35 @@
-## a POST endpoint to create a new user
+## an endpoint to GET the list of all users
 
-### rows creation
+this is rather straightforward; now that we have a means to create users, we
+need a way to get them back
 
-Look at the code for the new `/api/users` endpoint; it is totally idiomatic of
-how to use SQLAlchemy to create a new row in the database:
+- we use the same `/api/users` endpoint
+- except that this time we use the `GET` method
 
-- you **create** a `User` object, passing the values for each column
-- you than **add** it to the session
-- and finally you **commit** the session to the database (this is the actual
-  writing to the DB)
+### how to retrive stuff with SQLAlchemy
 
-(does the `add` / `commit` thing ring any bell ?)
+on a SQLAlchemy class - here `User` - and specifically on its `query` attribute, we can use methods like
+
+- `all()` to get all the rows
+- `first()` to get the first row
+- `get()` to get a row by its primary key
+- `filter_by()` to filter the rows
+- and other similar words...
+
+in this case a call to `all()` will return an **iterable of `User` objects**
+
+now, we cannot unfortunately return a list of these objets as-is in the Flask route function
+
+why is that ? because these `User` objects are not JSON serializable !  
+and Flask would automatically try to convert them to JSON, and fail miserably...
+
+this is the reason why we need to re-create a regular Python dictionary (with obviously the same keys as the
+`User` class)
+
+**Note** There are ways to deal with this a bit more concisely, but for
+educational purposes, and  for the sake of clarity, we will stick to this
+admittedly rather tedious way of doing things
 
 ### to try it out
 
-here again see the inline comments in the code for how to trigger the new endpoint
+you know what to do

@@ -1,1 +1,1 @@
-# POST /api/users to create a user
+# GET /api/users to list users

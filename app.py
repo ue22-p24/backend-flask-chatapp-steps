@@ -1,4 +1,4 @@
-VERSION = "02b"
+VERSION = "03"
 
 import json
 
@@ -88,6 +88,18 @@ def create_user():
         return parameters
     except Exception as exc:
         return dict(error=f"{type(exc)}: {exc}"), 422
+
+
+# try it with
+"""
+http :5001/api/users
+"""
+@app.route('/api/users', methods=['GET'])
+def list_users():
+    users = User.query.all()
+    return [dict(
+            id=user.id, name=user.name, email=user.email, nickname=user.nickname)
+        for user in users]
 
 
 if __name__ == '__main__':
