@@ -1,1 +1,1 @@
-# new messages notified on the socketio channel
+# display incoming messages in the frontend
