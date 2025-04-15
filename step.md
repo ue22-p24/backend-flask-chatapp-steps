@@ -1,1 +1,1 @@
-# messages creation endpoint returns more details
+# pouring SocketIO into the mix

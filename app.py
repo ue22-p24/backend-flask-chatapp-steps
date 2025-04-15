@@ -1,4 +1,4 @@
-VERSION = "15"
+VERSION = "16"
 
 import json
 from datetime import datetime as DateTime
@@ -8,6 +8,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from flask import redirect
+from flask_socketio import SocketIO
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -15,6 +16,7 @@ from sqlalchemy.sql import or_
 
 ## usual Flask initilization
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 ## DB declaration
 
@@ -270,7 +272,16 @@ def front_messages(recipient):
         users=users,
     )
 
+#
+# cannot be triggered through http
+# there is a socket-io CLI client that can be installed with
+# npm i -g socket.io-cli
+# in our case, the first test will be from the messages HTML page
+#
+@socketio.on('connect-ack')
+def connect_ack(message):
+    print(f'received ACK message: {message} of type {type(message)}')
 
 
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app)
