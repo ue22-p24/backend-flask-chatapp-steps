@@ -1,1 +1,1 @@
-# GET /api/users to list users
+# GET /front/users

@@ -1,9 +1,11 @@
-VERSION = "03"
+VERSION = "04"
 
 import json
+import requests
 
 from flask import Flask
 from flask import request
+from flask import render_template
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -100,6 +102,32 @@ def list_users():
     return [dict(
             id=user.id, name=user.name, email=user.email, nickname=user.nickname)
         for user in users]
+
+
+
+## Frontend
+# for clarity we define our routes in the /front namespace
+# however in practice /front/users would probably be just /users
+
+# try it by pointing your browser to
+"""
+http://localhost:5001/front/users
+"""
+@app.route('/front/users')
+def front_users():
+    # first option of course, is to get all users from DB
+    # users = User.query.all()
+    # but in a more fragmented architecture we would need to
+    # get that info at another endpoint
+    # here we ask ourselves on the /api/users route
+    url = request.url_root + '/api/users'
+    req = requests.get(url)
+    if not (200 <= req.status_code < 300):
+        # return render_template('errors.html', error='...')
+        return dict(error=f"could not request users list", url=url,
+                    status=req.status_code, text=req.text)
+    users = req.json()
+    return render_template('users.html.j2', users=users, version=VERSION)
 
 
 if __name__ == '__main__':
