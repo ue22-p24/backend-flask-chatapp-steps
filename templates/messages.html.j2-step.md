@@ -1,6 +1,4 @@
-## adding a form element in the template
-
-this new version of the template:
+## the template
 
 - injects the new JS script
 - adds a new form area to send messages, that has as many `<input>` fields as there are fields in a message, namely

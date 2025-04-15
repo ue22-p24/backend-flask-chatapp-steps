@@ -1,14 +1,15 @@
-## there is a new JavaScript file
+## also display newly created message
 
-- as we've learned in the frontend courses, the script arranges to execute itself when the page is loaded
-- at that time it binds the 'submit' event of the form to a function that will
-  - prevent the default behavior of the form (which would be to reload the page)
-  - get the values of the fields in the form
-  - and send them to the API, using a `POST` request
+### the messages page displays the message it just sent
 
-**Note**: there actually is a default behaviour for a form submission event,
-which uses the `action` and `method` attributes of the form to determine where
-to send the data. However that default behaviour does not support JSON encoding,
-this is the only reason why we need to bother with the JS script at that point.  
-(we will take advantage of our custom script in the next steps anyway, so it's
-no regret)
+upon successful creation of a message, the API returns the message details so,
+we can use that to display the message in the frontend
+
+in the mix, we can also take care of any error that may occur, and inform the
+user (actually in this rustic app we just log in the console)
+
+we just need to extend the JS script to handle the response from the API; for
+that
+- we improve on the sequence of `.then()` calls
+- if the response is a success, we create a new row in the messages table
+- and if not we use a `.catch()` to log the error in the console
