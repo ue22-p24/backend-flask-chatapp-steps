@@ -1,1 +1,1 @@
-# GET /api/users/<id>/messages - first draft
+# GET /api/users/<id>/messages: to and from user
