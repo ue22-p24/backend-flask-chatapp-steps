@@ -1,4 +1,4 @@
-VERSION = "08"
+VERSION = "09"
 
 import json
 from datetime import datetime as DateTime
@@ -168,6 +168,28 @@ def list_messages():
             author_id=message.author_id, recipient_id=message.recipient_id)
         for message in messages]
 
+
+# try it with
+"""
+http :5001/api/users/1/messages
+"""
+
+@app.route('/api/users/<int:recipient_id>/messages', methods=['GET'])
+def list_messages_to(recipient_id):
+    """"
+    returns only the messages to a given person
+    a first naive approach is to filter all messages by recipient_id
+    """"
+    messages = Message.query.filter_by(recipient_id=recipient_id).all()
+    return [
+        # rebuild dict (JSON-able) objects from the SQLAlchemy objects
+        dict(
+            id=message.id,
+            author_id=message.author_id,
+            recipient_id=message.recipient_id,
+            content=message.content,  date=message.date)
+        for message in messages
+    ]
 
 
 ## Frontend
