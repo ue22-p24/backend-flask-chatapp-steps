@@ -1,1 +1,1 @@
-# connect to a database
+# GET /db/alive
