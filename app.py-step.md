@@ -1,45 +1,22 @@
-## a basic frontend web page to display users
+## how to redirect
 
-In this move we add in the mix the first seed of the app frontend
+Nothing crucial here, but an opportunity to show how to redirect HTTP traffic
 
-### new files
+### what is a redirect ?
 
-a HTML template, and a CSS file, see below
+There are many reasons why you would want to redirect a request to another URL:
 
-### new endpoint
+- the URL has changed
+- the resource is now located on another server
+- ...
 
-And we also add a dedicated endpoint `/front/users` that will serve this page; the way it is intended to work is:
+### how to redirect
 
-1. you direct your browser to `http://localhost:5001/front/users`
-1. which will call the `/api/users` endpoint
-1. which in turn will retrieve all users from the DB
-1. and pass that list to the new **Jinja2 template** (the .j2 file)
-1. that will create one custom HTML element per user
-1. and return the full HTML page - with all users - back to the browser
+In Flask you can use the `redirect()` function to redirect a request to another URL; it's dead simple;
+in our case we just redirect the `/' URL to the `/front/users` URL:
 
-### new imports
+### see also
 
-We need:
+in particular about the HTTP codes, see:
 
-- `render_template` to render the Jinja2 template;
-- `requests` to call the `/api/users` endpoint
-
-### keeping the app modular
-
-Step #3 deserves a few more words; to retrieve all user details, we have a choice between:
-
-- asking the database directly
-- or forwarding the request to the `/api/users` endpoint
-
-We have gone for the latter option, as it is more in line with the micro-services philosophy  
-The idea is that even though our current deployment runs in a single Flask app,
-we want to be able to **deploy it in more distributed way**, with the services for
-- the database
-- the `/front/`
-- and the `/api/` endpoints
-
-all running in different containers/computers
-
-Also note that this way of doing things is SSR (Server-Side rendering); relying
-on the API to implement this endpointmakes it more likely for us move to CSR
-(Client-Side rendering) in the future if need be.
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections

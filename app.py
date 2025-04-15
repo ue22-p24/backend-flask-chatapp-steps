@@ -1,4 +1,4 @@
-VERSION = "04"
+VERSION = "05"
 
 import json
 import requests
@@ -6,6 +6,7 @@ import requests
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import redirect
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -38,7 +39,9 @@ with app.app_context():
 
 @app.route('/')
 def hello_world():
-    return f'hello, this is a chat app! (version {VERSION})'
+    # redirect to /front/users
+    # actually this is just a rsponse with a 301 HTTP code
+    return redirect('/front/users')
 
 
 # try it with
