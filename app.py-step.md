@@ -1,34 +1,17 @@
-## first endpoint to check if the database is alive
+## a /api/version endpoint to get the app version
 
+### endpoint
 
-### endpoints
+- We create a new endpoint `/api/version` that will return the version of
+  the code (we will increment the global `VERSION` variable as we go along the
+  steps)
 
-- We create a new endpoint `/db/alive` that will return a 200 OK response if the DB is alive
-
-This triggers the minimal SQL code, just to make sure we can reach the DB; think of it as a "Hello world" for the DB
+*Note* while we're talking versions, note that in a production environment, the
+API endpoints would rather be versioned like `/api/v1/...`  
+so that one can define a breaking change in the API, and still support the previous one
 
 ### to try it out
 
-in all the rest we assume you run the Flask server on port 5001  
-
 ```bash
-http :5001/db/alive
-```
-
-### Note for windows users
-
-It seems that the `http` command, when run on "Git Bash" for Windows, triggers an error:
-
-> Request body (from stdin, –raw or a file) and request data (key=value) cannot be mixed. Pass –ignore-stdin to let key/value take priority
-
-In that case, take the message at face value, and add the `-I` (shorthand for `--ignore-stdin`) option to the command:
-
-```bash
-http -I :5001/db/alive
-```
-
-**Tip**: to continue using the same sentence (i.e. without the `-I`), you might be able to trick bash and define an alias
-
-```bash
-alias http='\http -I'
+http :5001/api/version
 ```

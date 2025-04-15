@@ -1,1 +1,1 @@
-# GET /db/alive
+# GET /api/version

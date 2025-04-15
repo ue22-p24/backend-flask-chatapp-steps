@@ -1,4 +1,4 @@
-VERSION = "01b"
+VERSION = "01c"
 
 from flask import Flask
 
@@ -36,6 +36,15 @@ def db_alive():
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
+
+
+# try it with
+"""
+http :5001/api/version
+"""
+@app.route('/api/version')
+def version():
+    return dict(version=VERSION)
 
 
 if __name__ == '__main__':
