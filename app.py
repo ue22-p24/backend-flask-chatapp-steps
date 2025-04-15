@@ -1,6 +1,9 @@
-VERSION = "02"
+VERSION = "02b"
+
+import json
 
 from flask import Flask
+from flask import request
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -60,6 +63,31 @@ http :5001/api/version
 @app.route('/api/version')
 def version():
     return dict(version=VERSION)
+
+
+# try it with
+"""
+http :5001/api/users name="Alice Caroll" email="alice@foo.com" nickname="alice"
+http :5001/api/users name="Bob Morane" email="bob@foo.com" nickname="bob"
+http :5001/api/users name="Charlie Chaplin" email="charlie@foo.com" nickname="charlie"
+"""
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    # we expect the user to send a JSON object
+    # with the 3 fields name email and nickname
+    try:
+        parameters = json.loads(request.data)
+        name = parameters['name']
+        email = parameters['email']
+        nickname = parameters['nickname']
+        print("received request to create user", name, email, nickname)
+        # temporary
+        new_user = User(name=name, email=email, nickname=nickname)
+        db.session.add(new_user)
+        db.session.commit()
+        return parameters
+    except Exception as exc:
+        return dict(error=f"{type(exc)}: {exc}"), 422
 
 
 if __name__ == '__main__':
