@@ -1,1 +1,1 @@
-# GET /api/users/<id>/messages: more than just ids
+# GET /front/messages/<id> a front for messages

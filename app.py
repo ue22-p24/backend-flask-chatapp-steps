@@ -1,4 +1,4 @@
-VERSION = "11"
+VERSION = "12"
 
 import json
 from datetime import datetime as DateTime
@@ -230,6 +230,31 @@ def front_users():
                     status=req.status_code, text=req.text)
     users = req.json()
     return render_template('users.html.j2', users=users, version=VERSION)
+
+
+# try it by pointing your browser to
+"""
+http://localhost:5001/front/messages/1
+"""
+@app.route('/front/messages/<int:recipient>')
+def front_messages(recipient):
+    # same as for the users, let's pretend we don't have direct access to the DB
+    url = request.url_root + f'/api/users/{recipient}'
+    req1 = requests.get(url)
+    if not (200 <= req1.status_code < 300):
+        return dict(error="could not request user info", url=url,
+                    status=req1.status_code, text=req1.text)
+    user = req1.json()
+    req2 = requests.get(request.url_root + f'/api/users/{recipient}/messages')
+    if not (200 <= req2.status_code < 300):
+        return dict(error="could not request messages list", url=url,
+                    status=req2.status_code, text=req2.text)
+    messages = req2.json()
+    return render_template(
+        'messages.html.j2',
+        user=user, messages=messages,
+    )
+
 
 
 if __name__ == '__main__':
