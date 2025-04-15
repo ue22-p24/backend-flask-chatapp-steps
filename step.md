@@ -1,1 +1,1 @@
-# pouring SocketIO into the mix
+# pass current nickname to the JS code

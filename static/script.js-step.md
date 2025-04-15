@@ -1,10 +1,12 @@
-## the frontend connects to the backend socketio server
+## retrieve nickname and subscribe to the channel
 
-upon document loading, the JS code will 
+from then on, the nickname becomes accessible in the JS code, thanks to this
+line, that inspects the `data-` attributes in the body tag of the HTML page:
 
-- create a connection to the server using `socket = io()`
-- and then define a callback function
-- that will trigger upon a `connect` event (this time this is a builtin name, as
-  opposed to the `connect-ack` channel we created earlier)
-- and so this is how the frontend will send an acknowledgment to the backend
-  upon successful connection
+```javascript
+    // retrieve the nickname from the body tag
+    const nickname = document.body.dataset.nickname
+```
+
+and from there, we can simply subscribe to the nickname channel, using the
+`socket.on()` method like before
